@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.WebView.Maui;
-using Meltdown.Data;
+
 
 namespace Meltdown;
 
@@ -20,7 +20,7 @@ public static class MauiProgram
 		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
-		builder.Services.AddSingleton<WeatherForecastService>();
+		
 
 		return builder.Build();
 	}

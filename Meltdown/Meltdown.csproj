@@ -50,7 +50,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\videos\" />
+	  <None Remove="Resources\Raw\videoList.txt" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Data\" />
+	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMeltdownHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

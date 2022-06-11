@@ -27,26 +27,42 @@
 	<script src="_framework/blazor.webview.js" autostart="false"></script>
 	<script src="splide/dist/js/splide.min.js"></script>
 	<script>
-		function addSplide() {
-            var thumbnails = new Splide('.splide', {
-                fixedWidth: 100,
-                fixedHeight: 150,
-                gap: 20,
+		var videoPlayingNumber = 0;
+		var thumbnails;
+	
+		function addSplide(videoArray) {
+
+			thumbnails = new Splide('.splide', {
+            perPage: 9,
+            gap: 10,
 				rewind: true,
-			
-                pagination: false,
-                isNavigation: true,
-                breakpoints: {
-                    600: {
-                        fixedWidth: 60,
-                        fixedHeight: 44,
-                    },
-                },
-            });
+				focus:'center'
+            pagination: false,
+            isNavigation: true,
+            arrows: true,
+			 });
 			thumbnails.mount();
 			thumbnails.on("click", function (slide, e) {
-				alert("slide " + slide.index)
+				videoPlayingNumber = slide.index;
+				changeVideo(videoArray);
 			});
+		}
+		function playNext(videoArray) {
+            var nextIndex = videoPlayingNumber+1;
+			if (nextIndex >= videoArray.length) {
+				nextIndex = 0;
+			}
+			alert("next video is: " + videoArray[nextIndex]);
+		    thumbnails.go(nextIndex);
+			videoPlayingNumber = nextIndex;
+			changeVideo(videoArray);
+
+		}
+		function changeVideo(videoArray) {
+            var videoMain = document.querySelector("#mainVideo");
+            videoMain.src = "videos/" + videoArray[videoPlayingNumber] + ".mp4";
+            videoMain.load();
+            videoMain.play();
 		}
 	</script>
 </body>
