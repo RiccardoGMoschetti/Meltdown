@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+	<title>Meltdown</title>
+	<base href="/" />
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+	<link rel="stylesheet" href="splide/dist/css/splide.min.css" />
+
+	<link href="css/app.css" rel="stylesheet" />
+	<link href="Meltdown.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+
+	<div class="status-bar-safe-area"></div>
+
+	<div id="app">Loading...</div>
+
+	<div id="blazor-error-ui">
+		An unhandled error has occurred.
+		<a href="" class="reload">Reload</a>
+		<a class="dismiss">🗙</a>
+	</div>
+
+	<script src="_framework/blazor.webview.js" autostart="false"></script>
+	<script src="splide/dist/js/splide.min.js"></script>
+	<script>
+		function addSplide() {
+            var thumbnails = new Splide('.splide', {
+                fixedWidth: 100,
+                fixedHeight: 150,
+                gap: 20,
+				rewind: true,
+			
+                pagination: false,
+                isNavigation: true,
+                breakpoints: {
+                    600: {
+                        fixedWidth: 60,
+                        fixedHeight: 44,
+                    },
+                },
+            });
+			thumbnails.mount();
+			thumbnails.on("click", function (slide, e) {
+				alert("slide " + slide.index)
+			});
+		}
+	</script>
+</body>
+
+</html>

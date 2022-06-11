@@ -1,0 +1,92 @@
+﻿@page "/"
+@using System.Timers
+@inject IJSRuntime JS
+
+@*<video style="height: 50%; width: 100%;" id="mainVideo" @onended="Next_clicked" autoplay controls><source src="eva/s001.mp4" id="mainSource" type="video/mp4" /></video>
+<div class="thumbrow">
+    <img src="img/rewd.png" style="width: 20%; margin:5%" id="rwd" @onclick="Previous_clicked" />
+    <img src="img/ffwd.png" style="width: 20%; margin:5%" id="fwd" @onclick="Next_clicked" />
+</div>*@
+
+<div class="splide" role="group" aria-label="Splide Basic HTML Example">
+  <div class="splide__track">
+		<ul class="splide__list">
+			<li class="splide__slide"> <img src="img/eva.png" /></li>
+			<li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+            <li class="splide__slide"> <img src="img/eva.png" /></li>
+		</ul>
+  </div>
+</div>
+
+@*<div class="thumbrow">
+    <img src="img/eva.png" style="width: 20%; margin:5%" id="eva" @onclick='()=>ChangeCollection("eva")' />
+    <img src="img/eva.png" style="width: 20%; margin:5%" id="dbillions" @onclick='()=>ChangeCollection("dbillions")' />
+    <img src="img/eva.png" style="width: 20%; margin:5%" id="asmr" @onclick='()=>ChangeCollection("asmr")' />
+    <img src="img/eva.png" style="width: 20%; margin:5%" id="asmr" @onclick='()=>ChangeCollection("diana")' />
+
+</div>*@
+@code {
+    private Random r = new();
+    private string[] videoCollections = { "eva", "asmr", "dbillions" };
+    private Dictionary<string, List<string>> videos = new();
+    private string currentCollection;
+    private int currentPosition;
+    private string currentVideo;
+
+    public void ChangeCollection(string newcollection)
+    {
+        currentCollection = newcollection;
+        currentPosition = r.Next(0, videos[currentCollection].Count);
+
+    }
+
+    void Next_clicked()
+    {
+        currentPosition++;
+
+    }
+    void Previous_clicked()
+    {
+        currentPosition--;
+
+    }
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("addSplide", currentVideo);
+            var appDataDirectory = FileSystem.Current.AppDataDirectory;
+            string [] fileEntries = Directory.GetFiles(appDataDirectory);
+            foreach (var fileEntry in fileEntries)
+            {
+                Console.WriteLine(fileEntry);
+            }
+
+        }
+    }
+   
+
+    protected override void OnInitialized()
+    {
+        currentCollection = videoCollections[r.Next(0, 3)];
+        videos["eva"] = new List<string>() { "s001", "s002", "s003", "s004", "s005" };
+        videos["dbillions"] = new List<string>() { "s001", "s002", "s003", "s004", "s005" };
+        videos["asmr"] = new List<string>() { "a001", "a002", "a003"};
+        currentPosition = r.Next(0, videos[currentCollection].Count);
+
+        currentVideo = currentCollection + "/" + videos[currentCollection][currentPosition] + ".mp4";
+
+    }
+	}
