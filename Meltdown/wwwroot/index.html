@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-	<title>Meltdown</title>
-	<base href="/" />
-	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-	<link rel="stylesheet" href="splide/dist/css/splide.min.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Meltdown</title>
+    <base href="/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="splide/dist/css/splide.min.css" />
 
-	<link href="css/app.css" rel="stylesheet" />
-	<link href="Meltdown.styles.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="Meltdown.styles.css" rel="stylesheet" />
 </head>
 
 <body>
 
-	<div class="status-bar-safe-area"></div>
+    <div class="status-bar-safe-area"></div>
 
-	<div id="app">Loading...</div>
+    <div id="app">Loading...</div>
 
-	<div id="blazor-error-ui">
-		An unhandled error has occurred.
-		<a href="" class="reload">Reload</a>
-		<a class="dismiss">🗙</a>
-	</div>
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
 
-	<script src="_framework/blazor.webview.js" autostart="false"></script>
-	<script src="splide/dist/js/splide.min.js"></script>
-	<script>
-		var videoPlayingNumber = 0;
-		var thumbnails;
-	
-		function addSplide(videoArray) {
+    <script src="_framework/blazor.webview.js" autostart="false"></script>
+    <script src="splide/dist/js/splide.min.js"></script>
+    <script>
+        var videoPlayingNumber = 0;
+        var thumbnails;
 
-			thumbnails = new Splide('.splide', {
-            perPage: 9,
-            gap: 10,
-				rewind: true,
-				focus:'center'
-            pagination: false,
-            isNavigation: true,
-            arrows: true,
-			 });
-			thumbnails.mount();
-			thumbnails.on("click", function (slide, e) {
-				videoPlayingNumber = slide.index;
-				changeVideo(videoArray);
-			});
-		}
-		function playNext(videoArray) {
-            var nextIndex = videoPlayingNumber+1;
-			if (nextIndex >= videoArray.length) {
-				nextIndex = 0;
-			}
-			alert("next video is: " + videoArray[nextIndex]);
-		    thumbnails.go(nextIndex);
-			videoPlayingNumber = nextIndex;
-			changeVideo(videoArray);
+        function addSplide(videoArray) {
 
-		}
-		function changeVideo(videoArray) {
+            thumbnails = new Splide('.splide', {
+                perPage: 9,
+                gap: 10,
+                rewind: true,
+                focus: 'center',
+                pagination: false,
+                isNavigation: true,
+                arrows: true,
+            });
+            thumbnails.mount();
+            thumbnails.on("click", function (slide, e) {
+                videoPlayingNumber = slide.index;
+                changeVideo(videoArray);
+            });
+        }
+        function playNext(videoArray) {
+            var nextIndex = videoPlayingNumber + 1;
+            if (nextIndex >= videoArray.length) {
+                nextIndex = 0;
+            }
+            alert("next video is: " + videoArray[nextIndex]);
+            thumbnails.go(nextIndex);
+            videoPlayingNumber = nextIndex;
+            changeVideo(videoArray);
+
+        }
+        function changeVideo(videoArray) {
             var videoMain = document.querySelector("#mainVideo");
             videoMain.src = "videos/" + videoArray[videoPlayingNumber] + ".mp4";
             videoMain.load();
             videoMain.play();
-		}
-	</script>
+        }
+    </script>
 </body>
 
 </html>
