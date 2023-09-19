@@ -1,0 +1,60 @@
+﻿@page "/"
+@using System.Timers
+@inject IJSRuntime JS
+@{
+    Random rng = new Random();
+    using Stream fileStream = FileSystem.Current.OpenAppPackageFileAsync("videoList.txt").Result;
+    using StreamReader reader = new StreamReader(fileStream);
+    var videoList = reader.ReadToEndAsync().Result;
+    VideoNames = videoList.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).OrderBy(a => rng.Next()).ToList();
+    var screenHeight = DeviceDisplay.Current.MainDisplayInfo.Height / DeviceDisplay.Current.MainDisplayInfo.Density;
+    }
+
+<div style="height:90%">
+    <div style="text-align:center" >
+        <video controls style="height:@(screenHeight*0.5)pt;" id="mainVideo" @onended="NextVideo" poster="videos+thumbnails/@(VideoNames[0]).png">
+           <source src="videos+thumbnails/@(VideoNames[0]).mp4" id="mainSource" type="video/mp4"  />
+       </video>
+    </div>
+   
+        <div class="splide" role="group" style="position:absolute; bottom:0!important">
+            <div class="splide__track">
+                <ul class="splide__list">
+                        @{
+                            int slideNumber = 0;
+                            foreach (var videoName in VideoNames)
+                                {
+                                    <li  class="splide__slide" id="slide-@(slideNumber++)"> 
+                                         <img src="videos+thumbnails/@(videoName).png" style="width:100%; height:100%; object-fit:cover;"/>
+                                    </li>
+                                }
+                         }
+                </ul>
+            </div>
+        </div>
+  
+</div>
+
+
+@code {
+   
+    List<string> VideoNames = new();
+    
+    protected override async void OnAfterRender(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("addSplide",VideoNames);
+        }
+    }
+
+
+    protected  async void NextVideo()
+    {
+         await JS.InvokeVoidAsync("playNext",VideoNames);
+     
+    }
+
+    
+  }

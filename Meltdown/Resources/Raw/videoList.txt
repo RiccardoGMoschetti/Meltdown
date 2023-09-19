@@ -1,7 +1,0 @@
-﻿racoon_01
-bears
-carousel
-goat
-little_goats
-sheep
-swing
