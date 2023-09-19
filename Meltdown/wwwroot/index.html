@@ -52,7 +52,6 @@
             if (nextIndex >= videoArray.length) {
                 nextIndex = 0;
             }
-            alert("next video is: " + videoArray[nextIndex]);
             thumbnails.go(nextIndex);
             videoPlayingNumber = nextIndex;
             changeVideo(videoArray);
@@ -60,8 +59,8 @@
         }
         function changeVideo(videoArray) {
             var videoMain = document.querySelector("#mainVideo");
-            videoMain.src = "videos/" + videoArray[videoPlayingNumber] + ".mp4";
-            videoMain.load();
+            videoMain.src = "videos+thumbnails/" + videoArray[videoPlayingNumber] + ".mp4";
+            videoMain.load()
             videoMain.play();
         }
     </script>
